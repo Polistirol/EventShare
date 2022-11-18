@@ -1,0 +1,69 @@
+<html>
+
+<head>
+    <title>Metamask Demo</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+    <script src="https://unpkg.com/moralis-v1@1.11.0/dist/moralis.js"></script>
+
+
+</head>
+
+<body onload="_load()"></body>>
+
+<button onclick="login()">Login with Metamask</button>
+<button onclick="logOut()">logout</button>
+<br>
+<button onclick="newEvent()" id="newEventbtn" style="visibility: hidden;">New Event</button>
+<br>
+<button onclick="toEvents()" id="toEventsbtn" style="visibility: visible;">To all the Events</button>
+
+<script>
+    Moralis.initialize("942S2HtyFD2sF9CIb3aRFBTCHcn7yPWh8Vlb0rLn"); // Application id from moralis.io
+    Moralis.serverURL = "https://udolkebedlmy.usemoralis.com:2053/server"; //Server url from moralis.io
+
+
+    async function _load() {
+        await Moralis.enableWeb3();
+        user = Moralis.User.current();
+        if (user) {
+            console.log("logged in user:", user);
+            console.log(user.get("ethAddress"));
+            document.getElementById('newEventbtn').style.visibility = 'visible';
+        }
+    }
+    function newEvent() {
+        window.location.href = '/newEvent';
+    }
+    function toEvents() {
+        window.location.href = '/events';
+    }
+
+    async function login() {
+        if (!user) {
+            user = await Moralis.authenticate({
+                signingMessage: "Welcome, friend"
+            })
+                .then(function (user) {
+                    location.reload()
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+        }
+        else {
+            console.log("User already logged !")
+            console.log(user.get("ethAddress"));
+        }
+    }
+
+    async function logOut() {
+        await Moralis.User.logOut();
+        console.log("logged out");
+        location.reload()
+    }
+
+</script>
+</body>
+
+</html>

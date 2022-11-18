@@ -1,0 +1,115 @@
+<html>
+
+<head>
+    <title>Metamask Demo</title>
+    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+    <script src="https://unpkg.com/moralis-v1@1.11.0/dist/moralis.js"></script>
+    {% load static %}
+    <script type="text/javascript" src="{% static '/js/newEvent.js' %}"></script>
+
+
+</head>
+
+<body onload="_load()"></body>
+<!-- <form id="newForm" method="post" onsubmit="event.preventDefault()">
+    <label for="event name">event name: </label>
+    <input id="event_name" type="text" name="event_name" value="aaaa">
+    <br>
+    <input type="submit" value="Generate">Generate</button>
+</form> -->
+<h1>New event</h1>
+<form id="newForm" method="post">
+    {% csrf_token %}
+    <label for="token">YOUR EVENT:------------ </label>
+    <br>
+    <label for="event name">event name: </label>
+    <input id="event_name" type="text" name="event_name" value="aaaa">
+    <br>
+    <label for="start">Event Date:</label>
+    <input type="datetime-local" id="start" name="event_date" value="2022-06-25T21:00" min="2022-01-01"
+        max="2100-12-31">
+    <br>
+    <label for="presale duration">Presale duration: </label>
+    <input id="presale_duration" type="number" min="1" name="presale_duration" value="10">
+    <br>
+    <label for="event duration">Event duration: </label>
+    <input id="event_duration" type="number" min="1" name="event_duration" value="10">
+    <br>
+    <label for="cashback">Cashback </label>
+    <input id="cashback" type="number" min="1" name="cashback" value="10">
+    <br>
+    <label for="accepted token">Accepted currency </label>
+    <input type="radio" id="accepted_token" name="accepted_token" value="USDCL" checked>
+    <label for="accepted token">USDC </label>
+    <br>
+    <label for="token">YOUR TOKEN:------------ </label>
+    <br>
+    <label for="token_name">token name: </label>
+    <input id="token_name" type="text" name="token_name" value="bbbbbb">
+    <br>
+    <label for="token symbol">token symbol: </label>
+    <input id="token_symbol" type="text" name="token_symbol" maxlength="5" value="CCC">
+    <br>
+    <label for="token supply">token supply: </label>
+    <input id="token_supply" type="number" min="1" name="token_supply" value="100000000">
+    <br>
+    <br>
+    <label>Address:</label> <a> <span id="addr"></span></a>
+    <input id="user_address" name="user_address" value="" readonly>
+    <br>
+    <!-- hidden -->
+    <input id="event_manager_address" name="event_manager_address" value="" hidden readonly>
+    <input id="token_address" name="token_address" value="" hidden readonly>
+    <input id="vendor_address" name="vendor_address" value="" hidden readonly>
+
+
+</form>
+
+<button onclick="publish()" value="Generate">Publish Event</button>
+<!-- <button onclick="publish()">publish</button>-->
+<button onclick="getOwner()">owner</button>
+
+
+<!-- <form action="" method="post">
+    {% csrf_token %}
+    {{ newEventForm }}
+    <input type="submit" value="Submit">
+</form> -->
+</body>
+
+
+
+
+<script>
+    Moralis.initialize("942S2HtyFD2sF9CIb3aRFBTCHcn7yPWh8Vlb0rLn"); // Application id from moralis.io
+    Moralis.serverURL = "https://udolkebedlmy.usemoralis.com:2053/server"; //Server url from moralis.io
+
+    function test() {
+        var formInfo = document.forms['newForm'];
+        console.log(formInfo["event_date"].value);
+        console.log(Math.floor(new Date(formInfo["event_date"].value).getTime() / 1000));
+
+    }
+    // async function generate() {
+    //     console.log("click");
+    //     let user = Moralis.User.current();
+    //     console.log(user.get("ethAddress"));
+    // }
+
+    // async function getOwner() {
+    //     console.log("getting owner");
+    //     let options = {
+    //         contractAddress: managerAddress,
+    //         functionName: "owner",
+    //         abi: getOwnerABI
+    //     }
+    //     const message = await Moralis.executeFunction(options);
+    //     console.log(message)
+    // }
+
+
+
+</script>
+
+
+</html>

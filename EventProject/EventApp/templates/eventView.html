@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+    <script src="https://unpkg.com/moralis-v1@1.11.0/dist/moralis.js"></script>
+    {% load static %}
+    <script type="text/javascript" src="{% static '/js/eventView.js' %}"></script>
+    <script type="text/javascript" src="{% static '/js/interact.js' %}"></script>
+    <title>Event dashboard</title>
+</head>
+
+<script>
+    Moralis.initialize("942S2HtyFD2sF9CIb3aRFBTCHcn7yPWh8Vlb0rLn"); // Application id from moralis.io
+    Moralis.serverURL = "https://udolkebedlmy.usemoralis.com:2053/server"; //Server url from moralis.io
+
+</script>
+
+
+<h4>
+    ID: {{event_ID}}
+    <br>
+    NAME: {{name}}
+    <br>
+    DATE: {{date}}
+    <br>
+    PRESALE: {{presale}}
+    <br>
+    DURATION: {{duration}}
+    <br>
+    CASHBACK: {{cashback}}
+    <br>
+    ACCEPTED TOKEN: {{accepted_token}}
+    <br>
+    OWNER ADDRESS: {{owner_address}}
+    <br>
+    MANAGER CONTRACT: {{manager_contract}}
+    <br>
+
+    <label>------------------------------</label>
+    <br>
+    <table>
+        <tr>
+            <td>Vendor </td>
+            <td> <a href="/vendors/{{vendor_address}}">{{vendor_address}} </a></td>
+            <td id="vendor_enabled"></td>
+        </tr>
+        <tr>
+            <td>Token </td>
+            <td><a href="/tokens/{{token_address}}"> {{token_address}} </a></td>
+            <td id="token_enabled"></td>
+        </tr>
+
+        <tr>
+            <td>Date </td>
+            <td> {{date}} </td>
+            <td id="countdown"></td>
+        </tr>
+        <tr>
+            <td>Event status </td>
+            <td id="event_status"></td>
+        </tr>
+        <tr>
+            <td>Reward pool size </td>
+            <td id="reward_pool"></td>
+        </tr>
+        <tr>
+            <td>Total token spent </td>
+            <td id="total_token_spent"></td>
+        </tr>
+
+    </table>
+</h4>
+
+<body
+    onload="_load('{{owner_address}}','{{manager_contract}}','{{vendor_address}}','{{token_address}}','{{accepted_token}}')">
+</body>
+<a>----------------------------</a>
+<br>
+<tr>
+
+    <label>Crrent Price: <label id="price_each"></label> $ for 1 token</label>
+    <br>
+    <label>How many tokens?:</label>
+    <input type="number" id="token_amount" name="token_amount" min="0">
+
+    <button id="check_price_btn" onclick="checkFinalPrice('{{accepted_token}}','{{manager_contract}}')">check
+        price</button>
+    <br>
+    <a id="final_price" name="final_price">set an amount..</a>
+    <br>
+    <button id="buy_btn" onclick="buyToken('{{accepted_token}}')" hidden>BUY</button>
+    <button id="approve_btn" onclick="t_approve_max('{{accepted_token}}','{{manager_contract}}')" hidden>APPROVE
+    </button>
+    <br>
+    <a>----------------------------</a>
+    <br>
+    <button id="btn_check_reward" onclick="checkReward()">Check reward</button>
+    <button id="btn_withdraw_reward" onclick="m_withdrawReward()">Withdraw reward</button>
+    <br>
+    <button id="update_status" onclick="m_updateStatus()">UPDATE EVENT STATUS</button>
+    <br>
+    <button onclick="goToOrders('{{event_ID}}')">My orders</button>
+    </body>
+
+</html>

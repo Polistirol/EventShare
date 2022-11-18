@@ -1,0 +1,74 @@
+[
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": true,
+                "internalType": "address",
+                "name": "ManagerAddress",
+                "type": "address"
+            },
+            {
+                "indexed": true,
+                "internalType": "address",
+                "name": "ownerAddress",
+                "type": "address"
+            }
+        ],
+        "name": "PublishingSuccessful",
+        "type": "event"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "_eventDate",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_presaleDurationInDays",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_eventDuration",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_cashback",
+                "type": "uint256"
+            },
+            {
+                "internalType": "string",
+                "name": "_eventName",
+                "type": "string"
+            },
+            {
+                "internalType": "string",
+                "name": "_tokenName",
+                "type": "string"
+            },
+            {
+                "internalType": "string",
+                "name": "_tokenSymbol",
+                "type": "string"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_tokenTotalSupply",
+                "type": "uint256"
+            },
+            {
+                "internalType": "address",
+                "name": "_firstAcceptedToken",
+                "type": "address"
+            }
+        ],
+        "name": "publishEvent",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    }
+]

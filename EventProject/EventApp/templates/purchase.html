@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PURCHASE</title>
+    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+    <script src="https://unpkg.com/moralis-v1@1.11.0/dist/moralis.js"></script>
+    {% load static %}
+    <script type="text/javascript" src="{% static '/js/purchase.js' %}"></script>
+    <script type="text/javascript" src="{% static '/js/interact.js' %}"></script>
+</head>
+
+<script>
+    Moralis.initialize("942S2HtyFD2sF9CIb3aRFBTCHcn7yPWh8Vlb0rLn"); // Application id from moralis.io
+    Moralis.serverURL = "https://udolkebedlmy.usemoralis.com:2053/server"; //Server url from moralis.io
+
+
+
+</script>
+
+<body onload="getItems('{{item_list_json}}'),_load('{{manager_contract}}','{{vendor_address}}','{{token_address}}')">
+    <a href="{% url 'events' %}{{event_ID}}"> Back to event page</a>
+
+    <div id="shopping_list_container"></div>
+    {% for item_id,info in item_list.items %}
+    <div>
+        <br>
+        <label><b>{{item_id}}</b></label>
+        <br>
+        {% for key, value in info.items %}
+        <label>{{key}} : </label><label>{{value}}</label><br>
+    </div>
+    {% endfor %}
+    <label>Quantity</label><input type="number" id="{{item_id}}" value="0" min="0" readonly></input>
+    <button name="addItem" onclick="addToChart('{{item_id}}',99)">+</button>
+    <button name="removeItem" onclick="removeFromChart('{{item_id}}')">-</button>
+    {% endfor %}
+    <div>
+
+        <div>
+            <form action="" method="post">
+                {% csrf_token %}
+                <br>
+                <br>
+                <label>--------------------</label>
+                <br>
+                <label>Total = </label> <input type="number" name="total_price" id="total_price" min="0" value="0"
+                    readonly />
+                <br>
+                <input type="text" name="items_chart" id="items_chart" readonly />
+                <input type="text" name="user_address" id="user_address" readonly />
+                <input type="text" name="tx_hash" id="tx_hash" readonly />
+                <input type="submit" id="post_to" hidden />
+            </form>
+            <button name="approve_btn" id="approve_btn" onclick="approve('{{token_address}}','{{vendor_address}}')"
+                hidden>Approve</button>
+            <button name="pay_btn" id="pay" onclick="payVendor()" hidden>Pay</button>
+        </div>
+        <button onclick="goToOrders('{{event_ID}}')">My orders</button>
+
+</body>
+
+</html>

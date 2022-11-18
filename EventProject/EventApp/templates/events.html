@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+    <script src="https://unpkg.com/moralis-v1@1.11.0/dist/moralis.js"></script>
+    {% load static %}
+    <script type="text/javascript" src="{% static '/js/events.js' %}"></script>
+    <title>Document</title>
+</head>
+
+<script>
+    Moralis.initialize("942S2HtyFD2sF9CIb3aRFBTCHcn7yPWh8Vlb0rLn"); // Application id from moralis.io
+    Moralis.serverURL = "https://udolkebedlmy.usemoralis.com:2053/server"; //Server url from moralis.io
+</script>
+
+<body>
+    <h4>
+        <p>
+            {% for event in events %}
+            <a href="/events/{{ event.ID }}">{{ event.ID }} {{event.name}} {{ event.date }}</a>
+            <br>
+            {% endfor %}
+        </p>
+    </h4>
+
+</body>
+
+</html>

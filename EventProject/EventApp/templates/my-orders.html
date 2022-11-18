@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+{% load static %}
+<script type="text/javascript" src="{% static '/js/my-orders.js' %}"></script>
+<script type="text/javascript" src="{% static '/js/qr-code/qrcode.min.js' %}"></script>
+
+<div id="qrcode"></div>
+<script type="text/javascript">
+
+    qrcode = new QRCode(document.getElementById("qrcode"))
+    isQRcodeVisible = false;
+    nowDisplayed = 0
+    function displayQRCode(order_id) {
+        if (!isQRcodeVisible || nowDisplayed != order_id) {
+            let code = document.getElementById(order_id + "_code").innerHTML
+            qrcode.makeCode(code);
+            isQRcodeVisible = true
+            nowDisplayed = order_id;
+            document.getElementById("active_qr_id").innerHTML = "Displaying QR code of order: " + order_id
+        } else {
+            console.log("clearing...")
+            nowDisplayed = 0
+            isQRcodeVisible = false
+            document.getElementById("active_qr_id").innerHTML = "QR code will be displayed right above"
+
+        }
+    }
+
+</script>
+
+<body onload="getOrders('{{orders_dict_json}}')">
+    <div>
+        <h5 id="active_qr_id">QR code will be displayed right above</h5>
+    </div>
+
+    {% for order_id,content in orders_dict.items %}
+    <div id="order_display_{{order_id}}">
+        <label name="order_id">ID: </label><label id="{{order_id}}_ID"></label>
+        <button name="show_qr_code" onclick="displayQRCode('{{order_id}}')">Show QR Code</button>
+        <br <label name="order_itemsPayed">Items to Collect: </label>
+        <table id="{{order_id}}_itemsPayed" style="border: 1px solid black;">
+            <tr>
+                <th>Item</th>
+                <th>Quantity</th>
+            </tr>
+        </table>
+        <label name="order_itemsRedeemed">Items already collected: </label>
+        <table id="{{order_id}}_itemsRedeemed" style="border: 1px solid black;">
+            <tr>
+                <th>Item</th>
+                <th>Quantity</th>
+            </tr>
+        </table>
+        <div id="order_extra_details_{{order_id}}" style="display: none;">
+            <label name="order_code">CODE: </label><label id="{{order_id}}_code"></label><br>
+            <label name="order_userAddress" hidden>User Address: </label><label id="{{order_id}}_userAddress"
+                hidden></label>
+            <label name="order_txHash">Transaction: : </label><label id="{{order_id}}_txHash"></label><br>
+            <label name="order_amount">Amount: </label><label id="{{order_id}}_amount"></label><br>
+            <label name="order_fulfilled">Fulfilled: </label><label id="{{order_id}}_fulfilled"></label><br>
+            <label name="order_event">Event: </label><label id="{{order_id}}_event"></label><br>
+        </div>
+        <button id="display_extra_details_{{order_id}}" onclick="toggleOrderDetails('{{order_id}}')"> details >
+        </button>
+        <br>
+        <br>
+
+    </div>
+    {% endfor %}
+
+</body>
+
+
+</html>

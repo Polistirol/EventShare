@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VENDOR</title>
+    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+    <script src="https://unpkg.com/moralis-v1@1.11.0/dist/moralis.js"></script>
+    {% load static %}
+    <script type="text/javascript" src="{% static '/js/vendor.js' %}"></script>
+</head>
+
+<script>
+    Moralis.initialize("942S2HtyFD2sF9CIb3aRFBTCHcn7yPWh8Vlb0rLn"); // Application id from moralis.io
+    Moralis.serverURL = "https://udolkebedlmy.usemoralis.com:2053/server"; //Server url from moralis.io
+</script>
+
+<script type="text/javascript">
+    //ACCESS CONTROL WIP
+
+    //redirect to shop wip
+    if (isManager('{{owner_address}}') == false) {
+        goToPurchase()
+    }
+
+    function goToPurchase() {
+        window.location.replace('{{vendor_address}}/purchase');
+    }
+
+
+</script>
+
+
+<body onload="onLoad('{{owner_address}}')">
+    <a href="{% url 'events' %}{{event_ID}}"> Back to event page</a>
+
+    <div id="shopping_list_container"></div>
+    {% for item_id, info in item_list.items %}
+    <form action="" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="form_name" value="delete_item">
+        <div>
+            <br>
+            <label><b>{{item_id}}</b></label>
+            <br>
+            <input type="hidden" name="item_id" value="{{item_id}}" readonly>
+            {% for key, value in info.items %}
+            <label>{{key}} : </label><label>{{value}}</label><br>
+        </div>
+        {% endfor %}
+        <input type="submit" value="X"></button>
+    </form>
+    {% endfor %}
+    <div>
+        <br><label>--- ADD ITEM --- </label><br>
+        <form action="" method="post">
+            <input type="hidden" name="form_name" value="new_item_form">
+            {% csrf_token %}
+            {{new_item_form.as_p}}
+            <input type="submit" value="Add">
+        </form>
+
+    </div>
+    <br>
+    <br>
+    <button name="goToPurchase" onclick="goToPurchase()">Go to shopping</button>
+
+</body>
+
+
+
+</html>
